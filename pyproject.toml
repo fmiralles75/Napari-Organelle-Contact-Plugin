@@ -1,7 +1,7 @@
 [project]
 name = "napari-organelle-contact-analyzer"
 dynamic = ["version"]
-description = "A plugin used to analyze contacts between organelles based on a threshold distance."
+description = "A plugin to analyze organelle contacts within the cell at a designated threshold distance."
 readme = "README.md"
 license = {file = "LICENSE"}
 authors = [

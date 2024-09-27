@@ -7,7 +7,7 @@
 [![codecov](https://codecov.io/gh/fmiralles75/napari-organelle-contact-analyzer/branch/main/graph/badge.svg)](https://codecov.io/gh/fmiralles75/napari-organelle-contact-analyzer)
 [![napari hub](https://img.shields.io/endpoint?url=https://api.napari-hub.org/shields/napari-organelle-contact-analyzer)](https://napari-hub.org/plugins/napari-organelle-contact-analyzer)
 
-A plugin used to analyze contacts between organelles based on a threshold distance.
+A plugin to analyze organelle contacts within the cell at a designated threshold distance.
 
 ----------------------------------
 

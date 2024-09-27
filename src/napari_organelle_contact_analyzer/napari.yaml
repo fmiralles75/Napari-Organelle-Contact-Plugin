@@ -1,5 +1,5 @@
 name: napari-organelle-contact-analyzer
-display_name: Organelle Contact Analyzer
+display_name: Napari Organelle Contact Analyzer
 # use 'hidden' to remove plugin from napari hub search results
 visibility: public
 # see https://napari.org/stable/plugins/manifest.html for valid categories
@@ -8,16 +8,16 @@ contributions:
   commands:
     - id: napari-organelle-contact-analyzer.get_reader
       python_name: napari_organelle_contact_analyzer._reader:napari_get_reader
-      title: Open data with Organelle Contact Analyzer
+      title: Open data with Napari Organelle Contact Analyzer
     - id: napari-organelle-contact-analyzer.write_multiple
       python_name: napari_organelle_contact_analyzer._writer:write_multiple
-      title: Save multi-layer data with Organelle Contact Analyzer
+      title: Save multi-layer data with Napari Organelle Contact Analyzer
     - id: napari-organelle-contact-analyzer.write_single_image
       python_name: napari_organelle_contact_analyzer._writer:write_single_image
-      title: Save image data with Organelle Contact Analyzer
+      title: Save image data with Napari Organelle Contact Analyzer
     - id: napari-organelle-contact-analyzer.make_sample_data
       python_name: napari_organelle_contact_analyzer._sample_data:make_sample_data
-      title: Load sample data from Organelle Contact Analyzer
+      title: Load sample data from Napari Organelle Contact Analyzer
     - id: napari-organelle-contact-analyzer.make_container_widget
       python_name: napari_organelle_contact_analyzer:ImageThreshold
       title: Make threshold Container widget
@@ -43,7 +43,7 @@ contributions:
       filename_extensions: ['.npy']
   sample_data:
     - command: napari-organelle-contact-analyzer.make_sample_data
-      display_name: Organelle Contact Analyzer
+      display_name: Napari Organelle Contact Analyzer
       key: unique_id.1
   widgets:
     - command: napari-organelle-contact-analyzer.make_container_widget
