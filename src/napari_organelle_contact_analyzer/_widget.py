@@ -34,6 +34,7 @@ from typing import TYPE_CHECKING
 from magicgui import magic_factory
 from magicgui.widgets import CheckBox, Container, create_widget
 from qtpy.QtWidgets import QHBoxLayout, QPushButton, QWidget
+from skimage import filters, morphology, measure
 from skimage.util import img_as_float
 
 if TYPE_CHECKING:

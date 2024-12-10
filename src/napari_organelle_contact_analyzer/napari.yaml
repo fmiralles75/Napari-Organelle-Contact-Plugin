@@ -33,7 +33,7 @@ contributions:
   readers:
     - command: napari-organelle-contact-analyzer.get_reader
       accepts_directories: false
-      filename_patterns: ['*.npy']
+      filename_patterns: ['*.npy', '*.nd2']
   writers:
     - command: napari-organelle-contact-analyzer.write_multiple
       layer_types: ['image*','labels*']
