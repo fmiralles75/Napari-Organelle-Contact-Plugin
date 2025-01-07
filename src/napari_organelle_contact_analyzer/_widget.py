@@ -33,12 +33,66 @@ from typing import TYPE_CHECKING
 
 from magicgui import magic_factory
 from magicgui.widgets import CheckBox, Container, create_widget
-from qtpy.QtWidgets import QHBoxLayout, QPushButton, QWidget
+from qtpy.QtCore import Qt
+from qtpy.QtWidgets import QVBoxLayout, QHBoxLayout, QPushButton, QWidget, QLabel, QSlider
 from skimage import filters, morphology, measure
 from skimage.util import img_as_float
+import numpy as np
 
 if TYPE_CHECKING:
     import napari
+
+class OrganelleContactWidget(QWidget):
+    def __init__(self, viewer: napari.Viewer):
+        super().__init__()
+
+        self.viewer = viewer
+        # default threshold value
+        self.threshold = 10
+
+        # now we'll create the slider
+        self.slider = QSlider(Qt.Horizontal)
+        self.slider.setMinimum(1)
+        self.slider.setMaximum(100)
+        self.slider.setValue(self.threshold)
+        self.slider.valueChanged.connect(self.update_threshold)
+
+        self.label = QLabel(f"Contact Threshold (pixels): {self.threshold}")
+        self.label.setAlignment(Qt.AlignCenter)
+
+        # here's more on the layout for the widget
+        layout = QVBoxLayout()
+        layout.addWidget(self.label)
+        layout.addWidget(self.slider)
+        self.setLayout(layout)
+
+    def update_threshold(self, value):
+        self.threshold = value
+        self.label.setText(f"Contact Threshold (pixels): {self.threshold}")
+
+        if len(self.viewer.layers) > 0:
+            self.analyze_contacts()
+
+    def analyze_contacts(self):
+        # quick conditional to make sure that at least two signals are present
+        if len(self.viewer.layers) < 2:
+            print('load two signals prior to analysis')
+            return
+
+        signal1 = self.viewer.layers[0].data
+        signal2 = self.viewer.layers[1].data
+
+        if signal1.shape != signal2.shape:
+            print('input layers should be of the same dimensions. please fix.')
+            return      # just allows you to continue after the conditional
+
+
+        # contact_area = np.logical_and(signal1 > 0, signal2 > 0)
+        # contact_pixels = np.sum(contact_area)
+
+        # if contact_pixels >= self.threshold:
+        #     print
+        # # here's where we implement the jaccard index we talked about last time, well sort of
 
 
 # Uses the `autogenerate: true` flag in the plugin manifest

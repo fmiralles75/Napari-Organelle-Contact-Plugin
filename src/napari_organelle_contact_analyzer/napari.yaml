@@ -1,3 +1,5 @@
+# this file defines how your widgets are exposed to napari
+
 name: napari-organelle-contact-analyzer
 display_name: Napari Organelle Contact Analyzer
 # use 'hidden' to remove plugin from napari hub search results
@@ -30,6 +32,18 @@ contributions:
     - id: napari-organelle-contact-analyzer.make_qwidget
       python_name: napari_organelle_contact_analyzer:ExampleQWidget
       title: Make example QWidget
+      # Here's a sample of how we would implement new widgets to napari
+  #   - id: napari-organelle-contact-analyzer.make_contact_analyzer
+  #     python_name: napari_organelle_contact_analyzer.widget:OrganelleContactAnalyzer
+  #     title: Make Contact Analyzer Widget
+  #   - id: napari-organelle-contact-analyzer.make_contact_filter
+  #     python_name: napari_organelle_contact_analyzer.widget:contact_filter_widget
+  #     title: Make Contact Filter Widget
+  # widgets:
+  #   - command: napari-organelle-contact-analyzer.make_contact_analyzer
+  #     display_name: Organelle Contact Analyzer
+  #   - command: napari-organelle-contact-analyzer.make_contact_filter
+  #     display_name: Contact Filter
   readers:
     - command: napari-organelle-contact-analyzer.get_reader
       accepts_directories: false
