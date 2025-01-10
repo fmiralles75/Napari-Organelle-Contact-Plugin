@@ -22,4 +22,5 @@ __all__ = (
     "ImageThreshold",
     "threshold_autogenerate_widget",
     "threshold_magic_widget",
+    "OrganelleContactWidget"
 )

@@ -30,13 +30,14 @@ Replace code below according to your needs.
 """
 
 from typing import TYPE_CHECKING
-
+import napari
 from magicgui import magic_factory
 from magicgui.widgets import CheckBox, Container, create_widget
 from qtpy.QtCore import Qt
 from qtpy.QtWidgets import QVBoxLayout, QHBoxLayout, QPushButton, QWidget, QLabel, QSlider
 from skimage import filters, morphology, measure
 from skimage.util import img_as_float
+from scipy.ndimage import distance_transform_edt
 import numpy as np
 
 if TYPE_CHECKING:
@@ -60,18 +61,24 @@ class OrganelleContactWidget(QWidget):
         self.label = QLabel(f"Contact Threshold (pixels): {self.threshold}")
         self.label.setAlignment(Qt.AlignCenter)
 
+        self.result_label = QLabel("Number of Contacts: N/A\nOverlap Metric: N/A")
+        self.result_label.setAlignment(Qt.AlignCenter)
+
         # here's more on the layout for the widget
         layout = QVBoxLayout()
         layout.addWidget(self.label)
         layout.addWidget(self.slider)
+        layout.addWidget(self.result_label)
         self.setLayout(layout)
 
     def update_threshold(self, value):
         self.threshold = value
         self.label.setText(f"Contact Threshold (pixels): {self.threshold}")
+        self.analyze_contacts()
 
-        if len(self.viewer.layers) > 0:
-            self.analyze_contacts()
+        # this conditional isn't too relevant here
+        # if len(self.viewer.layers) > 0:
+        #     self.analyze_contacts()
 
     def analyze_contacts(self):
         # quick conditional to make sure that at least two signals are present
@@ -86,13 +93,34 @@ class OrganelleContactWidget(QWidget):
             print('input layers should be of the same dimensions. please fix.')
             return      # just allows you to continue after the conditional
 
+        # binary threshholding --> should we do this in a different widget? is it even needed?
 
+        mask1 = signal1 > filters.threshold_otsu(signal1)
+        mask2 = signal2 > filters.threshold_otsu(signal2)
+
+        # Calculate distance transform
+        dist1 = distance_transform_edt(~mask1)
+        dist2 = distance_transform_edt(~mask2)
+
+        # Identify contacts based on threshold
+        contacts = (dist1 < self.threshold) & mask2 | (dist2 < self.threshold) & mask1
+        contact_count = np.sum(contacts)
+
+        # Calculate overlap metric (Jaccard index)
+        intersection = np.logical_and(mask1, mask2).sum()
+        union = np.logical_or(mask1, mask2).sum()
+        overlap_metric = intersection / union if union > 0 else 0
+
+        # Update result label
+        self.result_label.setText(
+            f"Number of Contacts: {contact_count}\nOverlap Metric: {overlap_metric:.4f}"
+        )
         # contact_area = np.logical_and(signal1 > 0, signal2 > 0)
         # contact_pixels = np.sum(contact_area)
 
         # if contact_pixels >= self.threshold:
         #     print
-        # # here's where we implement the jaccard index we talked about last time, well sort of
+        # # here's where we implement the jaccard index, well sort of
 
 
 # Uses the `autogenerate: true` flag in the plugin manifest
